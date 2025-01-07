@@ -9,7 +9,7 @@ Night Vision does not let you see in complete darkness, it just makes light sour
 
 The inspiration for this module is that in GURPS RAW Night Vision has no effect in areas that are completely dark, but if there is even a small amount of light then Night Vision reduces the penalties by -1 per level. 
 
-How would this work in a VTT like Foundry? 
+How would this work visually in a VTT like Foundry? 
 
 One typical solution is to just assign a vision range to the token, but even assigning a sight range based on Night Vision level felt awkward to me. It renders moot the practical difference between a 1-point advantage like Night Vision and a 25-point advantage like Dark Vision. 
 
@@ -23,11 +23,8 @@ Join us on Discord: [GURPS Foundry-VTT Discord](https://discord.gg/6xJBcYWyED)
 
 #### Legal
 
-The material presented here is my original creation, intended for use with the [GURPS](http://www.sjgames.com/gurps) system from [Steve Jackson Games](ttp://www.sjgames.com). This material is not official and is not endorsed by Steve Jackson Games.
+As an addon module for GGA, this small script is intended for use with the [GURPS](http://www.sjgames.com/gurps) system from [Steve Jackson Games](ttp://www.sjgames.com). This module is not official and is not endorsed by Steve Jackson Games.
 
-[GURPS](http://www.sjgames.com/gurps) is a trademark of Steve Jackson Games, and its rules and art are copyrighted by Steve Jackson Games. All rights are reserved by Steve Jackson Games. This game aid is the original creation of Chris Normand/Nose66 and is released for free distribution, and not for resale, under the permissions granted in the [Steve Jackson Games Online Policy](http://www.sjgames.com/general/online_policy.html)
+[GURPS](http://www.sjgames.com/gurps) is a trademark of Steve Jackson Games, and its rules and art are copyrighted by Steve Jackson Games. All rights are reserved by Steve Jackson Games. This addon to GGA is released for free distribution, and not for resale, under the permissions granted in the [Steve Jackson Games Online Policy](http://www.sjgames.com/general/online_policy.html)
 
-This game system DOES NOT provide information contained in paid publications. It is only intended to allow people to play GURPS online using their GURPS books/PDFs.
-
-Status icons for actors provided by [R.K. Media](https://marketplace.roll20.net/browse/publisher/507/rk-media) - check them out!
 
