@@ -19,8 +19,8 @@
         "scripts/night_vision.js"
     ],
     "url": "https://github.com/devakm/gurps-night-vision",
-    "manifest": "https://github.com/devakm/gurps-night-vision/releases/latest/download/module.json",
-    "download": "https://github.com/devakm/gurps-night-vision/releases/download/module.zip",
+    "manifest": "https://github.com/devakm/gurps-night-vision/blob/release/module.json",
+    "download": "https://github.com/devakm/gurps-night-vision/blob/release/gurps-night-vision.zip",
     "relationships": {
         "systems": [
             {
