@@ -16,7 +16,7 @@
           }
     ],
     "scripts": [
-        "scripts/night_vision_script.js"
+        "scripts/night_vision.js"
     ],
     "url": "https://github.com/devakm/gurps-night-vision",
     "manifest": "https://github.com/devakm/gurps-night-vision/releases/latest/download/module.json",
