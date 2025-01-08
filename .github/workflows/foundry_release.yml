@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Set variables
         run: | 
-          VER=$(cat version.txt)
+          VER=$(cat ./version.txt)
           echo "VERSION=$VER" >> $GITHUB_ENV
       
       # Substitute the Manifest and Download URLs in the module.json
