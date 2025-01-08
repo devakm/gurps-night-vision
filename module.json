@@ -1,34 +1,34 @@
 {
     "title": "Night Vision (GURPS Game Aid)",
     "description": "FVTT/GGA implementation of the Night Vision advantage, based on a Warhammer mod by TheFirst05, with permission.",
-    "version": "1.2.0",
+    "version": "1.2.9",
     "authors": [
         {
             "name": "devakm",
             "discord": "urikslargda.devakm",
             "url": "https://github.com/devakm"
-          },
-          {
+        },
+        {
             "name": "thefirst",
             "discord": "thefirst5",
             "url": "https://github.com/TheFirst05/fvtt-wfrp4e-night-vision"
-          }
+        }
     ],
     "scripts": [
         "scripts/night_vision.js"
     ],
     "url": "https://github.com/devakm/gurps-night-vision",
-    "manifest": "https://github.com/devakm/gurps-night-vision/blob/main/module.json",
-    "download": "https://github.com/devakm/gurps-night-vision/blob/gurps-night-vision.zip",
+    "manifest": "https://github.com/devakm/gurps-night-vision/releases/latest/download/module.json",
+    "download": "https://github.com/devakm/gurps-night-vision/releases/download/1.2.9/module.zip",
     "id": "gurps-night-vision",
     "relationships": {
         "systems": [
             {
-              "id": "gurps",
-              "type": "system",
-              "compatibility": {}
+                "id": "gurps",
+                "type": "system",
+                "compatibility": {}
             }
-          ]
+        ]
     },
     "compatibility": {
         "minimum": "12",
