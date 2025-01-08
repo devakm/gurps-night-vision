@@ -7,7 +7,7 @@ This module partially automates the Night Vision talent in the gurps system. The
 
 Night Vision does not let you see in complete darkness, it just makes light sources illuminate a larger area. 
 
-I recommend setting the token sight range to 1 grid unit, but feel free to use whatever you prefer. GURPS is all about playing the way you like to play.
+I recommend setting the token Vision Range of all tokens whose vision is affected by light sources to 1 grid unit. Otherwise, Night Vision becomes largely meaningless. However, feel free to use whatever settings you prefer. GURPS is all about playing the way you like to play.
 
 For examples and settings, check out the [wiki page](https://github.com/devakm/gurps-night-vision/wiki).
 
