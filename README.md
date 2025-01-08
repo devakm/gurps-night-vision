@@ -5,17 +5,11 @@ FVTT/GGA implementation of the Night Vision advantage, based on a Warhammer mod 
 
 This module partially automates the Night Vision talent in the gurps system. The effective dim illumination radius of all light sources is extended for a selected token with the Night Vision talent or trait.
 
-Night Vision does not let you see in complete darkness, it just makes light sources illuminate a larger area. I recommend setting the token sight range to 1 grid unit, but feel free to use whatever you prefer. GURPS is all about playing the way you like to play.
+Night Vision does not let you see in complete darkness, it just makes light sources illuminate a larger area. 
 
-The inspiration for this module is that in GURPS RAW Night Vision has no effect in areas that are completely dark, but if there is even a small amount of light then Night Vision reduces the penalties by -1 per level. 
+I recommend setting the token sight range to 1 grid unit, but feel free to use whatever you prefer. GURPS is all about playing the way you like to play.
 
-How would this work visually in a VTT like Foundry? 
-
-One typical solution is to just assign a vision range to the token, but even assigning a sight range based on Night Vision level felt awkward to me. It renders moot the practical difference between a 1-point advantage like Night Vision and a 25-point advantage like Dark Vision. 
-
-I wanted to see a difference between Night Vision 3 and Night Vision 9 represented visually in-game. Increasing the radius of light sources for tokens that have Night Vision seems like the only way to approximate it.
-
-Note that light sources like torches or candles don't illuminate much area, so in a large open area of a map with no ambient light there will still be areas with complete darkness.
+For examples and settings, check out the [wiki page](https://github.com/devakm/gurps-night-vision/wiki).
 
 Requires: [GGA 17.16+](https://github.com/crnormand/gurps/tree/main)
 
