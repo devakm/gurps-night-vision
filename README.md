@@ -9,7 +9,7 @@ Night Vision does not let you see in complete darkness, it just makes light sour
 
 I recommend setting the token Vision Range of all tokens whose vision is affected by light sources to 1 or 0 grid unit. Otherwise, Night Vision becomes largely meaningless. However, feel free to use whatever settings you prefer. GURPS is all about playing the way you like to play.
 
-The 1.3.0 release adds support for Dark Vision, letting you see through Darkness and avoid the Foundry default Blindness condition when entering a Darkness area. 
+The 1.3.0 release adds support for Dark Vision, letting you see through Darkness and avoid the Foundry default Blindness condition when entering a Darkness area, if you have the Dark Vision advantage or spell active. 
 
 For examples, settings, and spell macros, check out the [wiki page](https://github.com/devakm/gurps-night-vision/wiki).
 
