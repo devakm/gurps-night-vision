@@ -39,7 +39,7 @@
   "packs": [
     {
       "name": "spelleffects",
-      "label": "SpellEffects",
+      "label": "Spell Effects",
       "path": "packs/spelleffects",
       "type": "Macro",
       "ownership": {
