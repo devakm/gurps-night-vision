@@ -1,8 +1,0 @@
-2025/02/04-21:53:58.194 c110 Recovering log #71
-2025/02/04-21:53:58.197 c110 Delete type=0 #71
-2025/02/04-21:53:58.197 c110 Delete type=3 #69
-2025/02/05-00:08:42.403 10e50 Level-0 table #76: started
-2025/02/05-00:08:42.403 10e50 Level-0 table #76: 0 bytes OK
-2025/02/05-00:08:42.405 10e50 Delete type=0 #74
-2025/02/05-00:08:42.406 10e50 Manual compaction at level-0 from '!folders!mwyQjur2QWef9stT' @ 72057594037927935 : 1 .. '!macros!pFP0wFJ7JNVvbZrR' @ 0 : 0; will stop at (end)
-2025/02/05-00:08:42.406 10e50 Manual compaction at level-1 from '!folders!mwyQjur2QWef9stT' @ 72057594037927935 : 1 .. '!macros!pFP0wFJ7JNVvbZrR' @ 0 : 0; will stop at (end)
