@@ -7,6 +7,7 @@ let hasNightVisionAdvantage = false;
 let hasDarkVisionAdvantage = false;
 let hasNightVisionActive = false;
 let hasDarkVisionActive = false;
+let hasMysticMistActive = false;
 let advantageObject = {};
 
 /**
@@ -110,6 +111,14 @@ const mixin = Base => class extends Base {
             if (data.negative === false && hasNightVisionActive === true && multiplier.bright > 1 ) {
                 data.bright += multiplier.bright * nightVisionDistance / 2 * gridUnitPixels;
             }
+        }
+        if (hasMysticMistActive === true && data.bright > 2) {
+            console.log(`Affected by MysticMist spell: Setting light.bright to 2`);
+            data.bright = 2;
+        }
+        if (hasMysticMistActive === true && data.dim > 0) {
+            console.log(`Affected by MysticMist spell: Setting light.dim to 0`);
+            data.dim = 0;
         }
         return data;
     }
