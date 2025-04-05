@@ -7,6 +7,7 @@ let hasNightVisionAdvantage = false;
 let hasDarkVisionAdvantage = false;
 let hasNightVisionActive = false;
 let hasDarkVisionActive = false;
+let hasMysticMistActive = false;
 let advantageObject = {};
 
 /**
@@ -111,6 +112,14 @@ const mixin = Base => class extends Base {
                 data.bright += multiplier.bright * nightVisionDistance / 2 * gridUnitPixels;
             }
         }
+        if (hasMysticMistActive === true && data.bright > 2) {
+            console.log(`Affected by MysticMist spell: Setting light.bright to 2`);
+            data.bright = 2;
+        }
+        if (hasMysticMistActive === true && data.dim > 0) {
+            console.log(`Affected by MysticMist spell: Setting light.dim to 0`);
+            data.dim = 0;
+        }
         return data;
     }
 };
@@ -139,13 +148,64 @@ const visionCalculator = async function () {
 		hasDarkVisionAdvantage = false;
 		hasNightVisionActive = false;
 		hasDarkVisionActive = false;
+		hasMysticMistActive = false;
 
         for (const t of relevantTokens) {
             hasNightVisionAdvantage = GURPS.findAdDisad(t.actor,NightVisionAdvantageName) ? true : false;
             hasDarkVisionAdvantage = GURPS.findAdDisad(t.actor,DarkVisionAdvantageName) ? true : false;
             console.log(`Checking selected token(s) for Night Vision and Dark Vision: ${t.name}`);
 
-            if (t.actor.flags.DarkVisionSpell && t.actor.flags.DarkVisionSpell === true) {
+            if (t.actor.flags.MysticMistSpell && t.actor.flags.MysticMistSpell === true) {
+                console.log(`Affected by MysticMist spell: ${t.actor.flags.MysticMistSpell}`);
+                hasMysticMistActive = true;
+                await t.document.update({"sight.visionMode": "basic", "sight.range": 0});
+                await t.vision.visionMode.updateSource({"id": "basic", "label": "VISION.ModeBasicVision"});
+                if (t.document.light.bright > 2) {
+                    await t.document.update({"light.bright": 2});
+                    console.log(`Affected by MysticMist spell: Setting light.bright to 2`);
+                }
+                if (t.document.light.dim > 0) {
+                    await t.document.update({"light.dim": 0});
+                    console.log(`Affected by MysticMist spell: Setting light.dim to 0`);
+                } 
+                await t.document.update({"vision.blinded.darkness": false});
+                if (hasDarkVisionAdvantage === true) {
+                    console.log(`Has Dark Vision advantage (${hasDarkVisionAdvantage}) in Mystic Mist, so sight range 6`);
+                    hasDarkVisionActive = true;
+                } else if (t.actor.flags.DarkVisionSpell && t.actor.flags.DarkVisionSpell === true) {
+                    console.log(`Has Dark Vision spell: ${t.actor.flags.DarkVisionSpell}`);
+                    hasDarkVisionActive = true;
+                } else if (t.actor.flags.NightVisionSpell && t.actor.flags.NightVisionSpell > 0) {
+                    console.log(`Has Night Vision spell: ${t.actor.flags.NightVisionSpell}`);
+                    hasNightVisionActive = true;
+                    nightVisionDistance = game.settings.get("gurps-night-vision", "nightVisionDistance");
+                    advantageLevel = t.actor.flags.NightVisionSpell;
+                    nightVisionLevelMultiplier = advantageLevel * nightVisionDistance;
+                    console.log(`token: ${t.actor.name}; has Night Vision spell active; actor.flags.NightVisionSpell: ${t.actor.flags.NightVisionSpell}; spell Level: ${advantageLevel} ; nightVisionLevelMultiplier: ${nightVisionLevelMultiplier};`);
+                } else if (hasNightVisionAdvantage === true) {
+                    hasNightVisionActive = true;
+                    advantageObject = GURPS.findAdDisad(t.actor,NightVisionAdvantageName) ? GURPS.findAdDisad(t.actor,NightVisionAdvantageName) : {};
+                    let advantageName = advantageObject.name ? advantageObject.name: '';
+                    const match = advantageName.match(/\d+$/);
+                    if (match) {
+                        advantageLevel = parseInt(match[0], 10);
+                        console.log(`advantageLevel: ${advantageLevel} `);
+                        nightVisionDistance = game.settings.get("gurps-night-vision", "nightVisionDistance");
+                        nightVisionLevelMultiplier = advantageLevel * nightVisionDistance;
+                        console.log(`nightVisionLevelMultiplier: ${nightVisionLevelMultiplier};`);
+                    }
+                }
+                if (hasDarkVisionActive === true) {
+                    console.log(`Has Dark Vision active (${hasDarkVisionAdvantage}) in Mystic Mist, so sight range 6`);
+                    await t.document.update({"sight.visionMode": "gurpsDarkvision", "sight.range": 6});
+                    await t.vision.visionMode.updateSource({"id": "gurpsDarkvision", "label": "GURPS.SenseDarkvision"});
+                    await t.document.update({"vision.blinded.darkness": false});
+                } else if (hasNightVisionActive === true) {
+                    console.log(`Has Night Vision active (${hasNightVisionAdvantage}) in Mystic Mist`);
+                    multiplier.dim = Math.min(multiplier.dim, nightVisionLevelMultiplier);
+                    multiplier.bright = Math.min(multiplier.bright, nightVisionLevelMultiplier);
+                }
+            } else if (t.actor.flags.DarkVisionSpell && t.actor.flags.DarkVisionSpell === true) {
                 console.log(`Has Dark Vision spell: ${t.actor.flags.DarkVisionSpell}`);
                 hasDarkVisionActive = true;
                 await t.document.update({"sight.visionMode": "gurpsDarkvision", "sight.range": 1000});
@@ -196,7 +256,7 @@ const visionCalculator = async function () {
             } else {
                 hasNightVisionActive = false;
                 hasDarkVisionActive = false;
-                console.log(`token: ${t.actor.name}; does not have Night Vision advantage, so no light multiplier`);
+                console.log(`token: ${t.actor.name}; does not have Night Vision or Dark Vision advantage, so no light multiplier`);
                 multiplier.dim = 1;
                 multiplier.bright = 1;
                 nightVisionDistance = 1;
@@ -215,7 +275,57 @@ const visionCalculator = async function () {
             hasDarkVisionAdvantage = GURPS.findAdDisad(t.actor,DarkVisionAdvantageName) ? true : false;
             console.log(`Checking selected token(s) for Night Vision and Dark Vision: ${t.name}`);
 
-            if (t.actor.flags.DarkVisionSpell && t.actor.flags.DarkVisionSpell === true) {
+            if (t.actor.flags.MysticMistSpell && t.actor.flags.MysticMistSpell === true) {
+                console.log(`Affected by MysticMist spell: ${t.actor.flags.MysticMistSpell}`);
+                hasMysticMistActive = true;
+                await t.document.update({"sight.visionMode": "basic", "sight.range": 0});
+                await t.vision.visionMode.updateSource({"id": "basic", "label": "VISION.ModeBasicVision"});
+                if (t.document.light.bright > 2) {
+                    await t.document.update({"light.bright": 2});
+                    console.log(`Affected by MysticMist spell: Setting light.bright to 2`);
+                }
+                if (t.document.light.dim > 0) {
+                    await t.document.update({"light.dim": 0});
+                    console.log(`Affected by MysticMist spell: Setting light.dim to 0`);
+                } 
+                await t.document.update({"vision.blinded.darkness": false});
+                if (hasDarkVisionAdvantage === true) {
+                    console.log(`Has Dark Vision advantage (${hasDarkVisionAdvantage}) in Mystic Mist, so sight range 6`);
+                    hasDarkVisionActive = true;
+                } else if (t.actor.flags.DarkVisionSpell && t.actor.flags.DarkVisionSpell === true) {
+                    console.log(`Has Dark Vision spell: ${t.actor.flags.DarkVisionSpell}`);
+                    hasDarkVisionActive = true;
+                } else if (t.actor.flags.NightVisionSpell && t.actor.flags.NightVisionSpell > 0) {
+                    console.log(`Has Night Vision spell: ${t.actor.flags.NightVisionSpell}`);
+                    hasNightVisionActive = true;
+                    nightVisionDistance = game.settings.get("gurps-night-vision", "nightVisionDistance");
+                    advantageLevel = t.actor.flags.NightVisionSpell;
+                    nightVisionLevelMultiplier = advantageLevel * nightVisionDistance;
+                    console.log(`token: ${t.actor.name}; has Night Vision spell active; actor.flags.NightVisionSpell: ${t.actor.flags.NightVisionSpell}; spell Level: ${advantageLevel} ; nightVisionLevelMultiplier: ${nightVisionLevelMultiplier};`);
+                } else if (hasNightVisionAdvantage === true) {
+                    hasNightVisionActive = true;
+                    advantageObject = GURPS.findAdDisad(t.actor,NightVisionAdvantageName) ? GURPS.findAdDisad(t.actor,NightVisionAdvantageName) : {};
+                    let advantageName = advantageObject.name ? advantageObject.name: '';
+                    const match = advantageName.match(/\d+$/);
+                    if (match) {
+                        advantageLevel = parseInt(match[0], 10);
+                        console.log(`advantageLevel: ${advantageLevel} `);
+                        nightVisionDistance = game.settings.get("gurps-night-vision", "nightVisionDistance");
+                        nightVisionLevelMultiplier = advantageLevel * nightVisionDistance;
+                        console.log(`nightVisionLevelMultiplier: ${nightVisionLevelMultiplier};`);
+                    }
+                }
+                if (hasDarkVisionActive === true) {
+                    console.log(`Has Dark Vision active (${hasDarkVisionAdvantage}) in Mystic Mist, so sight range 6`);
+                    await t.document.update({"sight.visionMode": "gurpsDarkvision", "sight.range": 6});
+                    await t.vision.visionMode.updateSource({"id": "gurpsDarkvision", "label": "GURPS.SenseDarkvision"});
+                    await t.document.update({"vision.blinded.darkness": false});
+                } else if (hasNightVisionActive === true) {
+                    console.log(`Has Night Vision active (${hasNightVisionAdvantage}) in Mystic Mist`);
+                    multiplier.dim = Math.min(multiplier.dim, nightVisionLevelMultiplier);
+                    multiplier.bright = Math.min(multiplier.bright, nightVisionLevelMultiplier);
+                }
+            } else if (t.actor.flags.DarkVisionSpell && t.actor.flags.DarkVisionSpell === true) {
                 console.log(`Has Dark Vision spell: ${t.actor.flags.DarkVisionSpell}`);
                 hasDarkVisionActive = true;
                 await t.document.update({"sight.visionMode": "gurpsDarkvision", "sight.range": 1000});
